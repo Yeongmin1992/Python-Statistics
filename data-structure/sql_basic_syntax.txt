@@ -1,0 +1,39 @@
+use world
+
+show tables
+
+SELECT name, countrycode, population
+FROM city
+WHERE population between 8000000 and 10000000
+ORDER BY population DESC
+
+SELECT code, concat(name, "(", indepyear, ")") AS NameIndep, continent, population
+FROM country
+WHERE indepyear between 1940 and 1950
+ORDER BY indepyear
+
+SELECT CountryCode, Language, Percentage
+FROM countrylanguage
+WHERE Language in ('English', 'Spanish', 'Korean') AND percentage > 95.0
+ORDER BY Percentage DESC
+
+SELECT Code, Name, Continent, GovernmentForm, Population
+FROM country
+WHERE Code LIKE 'A%' AND GovernmentForm LIKE '%Republic%'
+
+# countrylangauge  테이블에서 전체 언어의 갯수를 출력
+SELECT count(DISTINCT(Language))
+FROM countrylanguage
+
+# 대륙별 인구수와 GNP의 최댓값, 인구 1인당 GNP를 출력
+SELECT continent, max(population), max(GNP),
+SUM(GNP) / SUM(population)
+FROM country
+GROUP BY continent
+
+# 대륙별 전체인구를 구하고 5억 이상인 대륙만 출력
+# Having : group by가 실행되고 난 결과에 조건을 추가
+SELECT continent, sum(population) as pop
+FROM country
+GROUP BY continent
+Having pop > 500000000
