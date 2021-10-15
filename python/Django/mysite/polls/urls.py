@@ -2,6 +2,9 @@ from django.urls import path
 
 from . import views
 
+# 어플리케이션 이름공간 설정 -> 비슷한 역할을 하는 url을 그룹으로 묶어주는 역할
+app_name = 'polls'
+
 urlpatterns = [
     # ex: /polls/
     path('', views.index, name='index'),
