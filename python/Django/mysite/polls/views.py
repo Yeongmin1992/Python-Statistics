@@ -1,8 +1,11 @@
-from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render
-from .models import Question
+from .models import Choice, Question
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
 
 def index(request):
@@ -40,8 +43,25 @@ def results(request, question_id):
 
 def vote(request, question_id):
     # 데이터베이스 수정
-    return HttpResponse("You're voting on question %s." % question_id)
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        # question.choice_set은 해당 key를 외래키로 갖고 있는 choice_set을 의미, pk는 post요청으로 들어온 request의 'choice' 값
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didn't select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        # post 요청이 왔을 때 대게 reverse함수를 사용하여 response를 함
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 
 # def test(request):
-#     return HttpResponse("Hello, world. You're at the test index.")
+#    return HttpResponse("Hello, world. You're at the test index.")

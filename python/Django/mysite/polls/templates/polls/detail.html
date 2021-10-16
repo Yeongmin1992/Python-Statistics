@@ -9,6 +9,7 @@
 
 <!-- 클릭했을 때 해당 url로 가라 -->
 <form action="{% url 'polls:vote' question.id %}" method="post">
+  <!-- csrf는 해커가 db와의 통신을 해킹하여 데이터를 바꾸는 것을 방지하는 보안 역할을 함 -->
   {% csrf_token %}
   <fieldset>
     <legend><h1>{{ question.question_text }}</h1></legend>
