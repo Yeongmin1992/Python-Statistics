@@ -23,7 +23,7 @@
       {% else %} {{order.estimated_time}}분 {% endif %}
     </td>
     <td style="border: 1px solid black">
-      {% if order.delivery_finish == 0 %} 배송중 {% else %} 완료 {% endif %}
+      {% if order.deliver_finish == 0 %} 배송중 {% else %} 완료 {% endif %}
     </td>
   </tr>
   {% endfor %}

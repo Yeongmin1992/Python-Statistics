@@ -6,13 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 
 @csrf_exempt
-def order_list(request, shop):
+def order_list(request):
     if request.method == 'GET':
-        order_list = Order.objects.filter(shop=shop)
-        return render(request, 'boss/order_list.html', {'order_list':order_list})
+        order_list = Order.objects.all()
+        return render(request, 'delivery/order_list.html', {'order_list':order_list})
     elif request.method == "POST":
         order_item = Order.objects.get(pk=int(request.POST['order_id']))
-        shop = order_item.shop.id
-        order_item.estimated_time = int(request.POST['estimated_time'])
+        order_item.delivery_finish=1
         order_item.save()
-        return render(request, 'boss/success.html', {'shop':int(shop)})
+        return render(request, 'delivery/success.html')
