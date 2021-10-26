@@ -12,6 +12,6 @@ def order_list(request):
         return render(request, 'delivery/order_list.html', {'order_list':order_list})
     elif request.method == "POST":
         order_item = Order.objects.get(pk=int(request.POST['order_id']))
-        order_item.delivery_finish=1
+        order_item.deliver_finish=1
         order_item.save()
         return render(request, 'delivery/success.html')

@@ -18,7 +18,7 @@
       {{order.estimated_time}}분 {% endif %}
     </td>
     <td style="border: 1px solid black">
-      {% if order.estimated_time == 0 %}
+      {% if order.deliver_finish == 0 %}
       <form method="post" action="{% url 'order_list' %}">
         <input type="hidden" name="order_id" value="{{order.id}}" />
         <input type="submit" value="배송완료 버튼" />
